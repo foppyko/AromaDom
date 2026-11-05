@@ -1,0 +1,1 @@
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="AromaDom.Web.MvcApplication" Language="C#" %>

@@ -1,0 +1,93 @@
+﻿@model List<AromaDom.Web.Models.MaterialViewModel>
+
+@{
+    ViewBag.Title = "Список материалов";
+}
+
+<div class="page-actions">
+    <a href="@Url.Action("Create")" class="btn btn-primary">
+        <span class="btn-icon">+</span> Добавить материал
+    </a>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" id="successAlert">
+        <span class="alert-icon">✓</span>
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-error" id="errorAlert">
+        <span class="alert-icon">⚠</span>
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="materials-list">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var material in Model)
+        {
+            <a href="@Url.Action("Edit", new { id = material.Id })" class="material-card-link">
+                <div class="material-card">
+                    <div class="card-header">
+                        <span class="material-type">@material.MaterialTypeName</span>
+                    </div>
+
+                    <div class="card-body">
+                        <h3 class="material-name">@material.Name</h3>
+
+                        <div class="material-info">
+                            <div class="info-row">
+                                <span class="info-label">Минимальное количество:</span>
+                                <span class="info-value">@material.MinQuantity.ToString("F2") @material.Unit</span>
+                            </div>
+
+                            <div class="info-row">
+                                <span class="info-label">Количество на складе:</span>
+                                <span class="info-value">@material.StockQuantity.ToString("F2") @material.Unit</span>
+                            </div>
+
+                            <div class="info-row">
+                                <span class="info-label">Цена:</span>
+                                <span class="info-value">@material.Price.ToString("F2") р / Единица измерения: @material.Unit</span>
+                            </div>
+
+                            <div class="info-row required-quantity">
+                                <span class="info-label">Требуемое количество:</span>
+                                <span class="info-value">@material.RequiredQuantity.ToString("F2") @material.Unit</span>
+                            </div>
+                        </div>
+
+                        <div class="card-actions">
+                            <a href="@Url.Action("ProductsByMaterial", new { id = material.Id })"
+                               class="btn-action btn-products">
+                                Продукция
+                            </a>
+                            <a href="@Url.Action("Edit", new { id = material.Id })"
+                               class="btn-action btn-edit">
+                                Редактировать
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+    }
+    else
+    {
+        <p class="no-data">Материалы не найдены. Добавьте первый материал.</p>
+    }
+</div>
+
+<script>
+    setTimeout(function() {
+        var successAlert = document.getElementById('successAlert');
+        var errorAlert = document.getElementById('errorAlert');
+        if (successAlert) successAlert.style.display = 'none';
+        if (errorAlert) errorAlert.style.display = 'none';
+    }, 4000);
+</script>

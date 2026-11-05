@@ -1,0 +1,49 @@
+﻿@model List<AromaDom.Web.Models.MaterialViewModel>
+
+@{
+    ViewBag.Title = "Список материалов";
+}
+
+<div class="materials-list">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var material in Model)
+        {
+            <div class="material-card">
+                <div class="card-header">
+                    <span class="material-type">@material.MaterialTypeName</span>
+                </div>
+
+                <div class="card-body">
+                    <h3 class="material-name">@material.Name</h3>
+
+                    <div class="material-info">
+                        <div class="info-row">
+                            <span class="info-label">Минимальное количество:</span>
+                            <span class="info-value">@material.MinQuantity.ToString("F2") @material.Unit</span>
+                        </div>
+
+                        <div class="info-row">
+                            <span class="info-label">Количество на складе:</span>
+                            <span class="info-value">@material.StockQuantity.ToString("F2") @material.Unit</span>
+                        </div>
+
+                        <div class="info-row">
+                            <span class="info-label">Цена:</span>
+                            <span class="info-value">@material.Price.ToString("F2") р / Единица измерения: @material.Unit</span>
+                        </div>
+
+                        <div class="info-row required-quantity">
+                            <span class="info-label">Требуемое количество:</span>
+                            <span class="info-value">@material.RequiredQuantity.ToString("F2") @material.Unit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="no-data">Материалы не найдены</p>
+    }
+</div>

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - Арома Дом</title>
+    <link rel="icon" href="~/Content/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="~/Content/Site.css" />
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div class="logo-container">
+                <img src="~/Content/logo.png" alt="Логотип Арома Дом" class="logo" />
+            </div>
+            <h1 class="page-title">@ViewBag.Title</h1>
+        </header>
+
+        <nav class="main-nav">
+            <a href="@Url.Action("Index", "Materials")" class="nav-link"> Список материалов</a>
+            <a href="@Url.Action("Create", "Materials")" class="nav-link">➕ Добавить материал</a>
+        </nav>
+
+        <main class="main-content">
+            @RenderBody()
+        </main>
+
+        <footer class="main-footer">
+            <p>&copy; 2026 Арома Дом. Все права защищены.</p>
+        </footer>
+    </div>
+</body>
+</html>

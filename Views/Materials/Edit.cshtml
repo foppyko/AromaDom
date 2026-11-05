@@ -1,0 +1,96 @@
+﻿@model AromaDom.Web.Models.MaterialViewModel
+
+@{
+    ViewBag.Title = "Редактирование материала";
+}
+
+<div class="form-container">
+    <div class="form-header">
+        <h2>Редактирование материала</h2>
+        <p class="form-subtitle">Измените данные материала и сохраните</p>
+    </div>
+
+    @using (Html.BeginForm("Edit", "Materials", FormMethod.Post, new { @class = "material-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id)
+
+        @Html.ValidationSummary(true, "", new { @class = "validation-summary" })
+
+        <div class="form-grid">
+            <div class="form-group">
+                @Html.LabelFor(m => m.MaterialTypeId, new { @class = "form-label" })
+                @Html.DropDownListFor(m => m.MaterialTypeId,
+                    (SelectList)ViewBag.MaterialTypes,
+                    "-- Выберите тип материала --",
+                    new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.MaterialTypeId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group full-width">
+                @Html.LabelFor(m => m.Name, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Введите наименование материала" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Price, new { @class = "form-label" })
+                <div class="input-with-unit">
+                    @Html.TextBoxFor(m => m.Price, new { @class = "form-control", type = "number", step = "0.01", min = "0", placeholder = "0.00" })
+                    <span class="input-suffix">руб.</span>
+                </div>
+                @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+                <span class="form-hint">Точность до сотых, не может быть отрицательной</span>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Unit, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.Unit, new { @class = "form-control", placeholder = "кг, л, шт, м" })
+                @Html.ValidationMessageFor(m => m.Unit, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.PackageQuantity, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.PackageQuantity, new { @class = "form-control", type = "number", step = "0.01", min = "0", placeholder = "0.00" })
+                @Html.ValidationMessageFor(m => m.PackageQuantity, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.StockQuantity, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.StockQuantity, new { @class = "form-control", type = "number", step = "0.01", min = "0", placeholder = "0.00" })
+                @Html.ValidationMessageFor(m => m.StockQuantity, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.MinQuantity, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.MinQuantity, new { @class = "form-control", type = "number", step = "0.01", min = "0", placeholder = "0.00" })
+                @Html.ValidationMessageFor(m => m.MinQuantity, "", new { @class = "text-danger" })
+                <span class="form-hint">Не может быть отрицательным</span>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">← Назад к списку</a>
+        </div>
+    }
+</div>
+
+<script>
+    document.querySelector('.material-form').addEventListener('submit', function(e) {
+        var price = parseFloat(document.getElementById('Price').value);
+        var minQty = parseFloat(document.getElementById('MinQuantity').value);
+
+        if (price < 0) {
+            e.preventDefault();
+            alert('Ошибка: Цена не может быть отрицательной');
+            return false;
+        }
+
+        if (minQty < 0) {
+            e.preventDefault();
+            alert('Ошибка: Минимальное количество не может быть отрицательным');
+            return false;
+        }
+    });
+</script>

@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Калькулятор производства";
+    int result = ViewBag.Result ?? -1;
+}
+
+<div class="form-container">
+    <div class="form-header">
+        <h2>Результат расчёта количества продукции</h2>
+    </div>
+
+    <div class="calc-result">
+        <p class="result-text">
+            Из <strong>10 кг</strong> соевого воска можно произвести:
+        </p>
+        <p class="result-number">
+            @if (result >= 0)
+            {
+                <strong>@result единиц продукции</strong>
+            }
+            else
+            {
+                <span class="text-danger">Ошибка расчёта (некорректные параметры)</span>
+            }
+        </p>
+    </div>
+
+    <div class="form-actions">
+        <a href="@Url.Action("Index", "Materials")" class="btn btn-secondary">
+            Назад к списку материалов
+        </a>
+    </div>
+</div>

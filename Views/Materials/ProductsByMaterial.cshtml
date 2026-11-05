@@ -1,0 +1,65 @@
+﻿@model List<AromaDom.Web.Models.ProductForMaterialViewModel>
+
+@{
+    ViewBag.Title = "Продукция для материала: " + ViewBag.MaterialName;
+}
+
+<div class="material-info-block">
+    <div class="info-header">
+        <h2>Материал: @ViewBag.MaterialName</h2>
+        <span class="material-type-badge">@ViewBag.MaterialTypeName</span>
+    </div>
+    <p class="info-description">
+        Список продукции, в рецептуре которой используется данный материал,
+        с указанием необходимого количества материала на единицу продукции
+    </p>
+</div>
+
+<div class="page-actions">
+    <a href="@Url.Action("Index")" class="btn btn-secondary">
+        <span class="btn-icon">←</span> Назад к списку материалов
+    </a>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="products-table-container">
+        <table class="products-table">
+            <thead>
+                <tr>
+                    <th>Артикул</th>
+                    <th>Наименование продукции</th>
+                    <th>Тип продукции</th>
+                    <th>Необходимое количество материала</th>
+                    <th>Мин. цена для партнёра</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td class="article-cell">@product.Article</td>
+                        <td class="product-name-cell">@product.ProductName</td>
+                        <td>@product.ProductTypeName</td>
+                        <td class="quantity-cell">
+                            @product.RequiredMaterialQuantity.ToString("F4") @product.MaterialUnit
+                        </td>
+                        <td class="price-cell">@product.MinPartnerPrice.ToString("F2") р</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="products-summary">
+        <p>
+            <strong>Всего позиций продукции:</strong> @Model.Count
+        </p>
+    </div>
+}
+else
+{
+    <div class="no-data">
+        <p>Для данного материала не найдено ни одной продукции в рецептуре</p>
+    </div>
+}
